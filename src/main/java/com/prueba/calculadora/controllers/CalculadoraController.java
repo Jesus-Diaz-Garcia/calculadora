@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.OK;
 import com.prueba.calculadora.exceptions.CalculadoraException;
 import com.prueba.calculadora.exceptions.ErrorMessage;
 import com.prueba.calculadora.services.CalculadoraService;
+import com.prueba.calculadora.services.TracerService;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class CalculadoraController {
 
   @Autowired
   CalculadoraService calculadoraService;
+
+  @Autowired
+  TracerService tracerService;
 
   /**
    * Internal server error handler.
@@ -63,7 +67,9 @@ public class CalculadoraController {
       @RequestParam
       @Validated
       Double operador2) {
-    return new ResponseEntity<>(calculadoraService.suma(operador1, operador2), OK);
+    Double resultado = calculadoraService.suma(operador1, operador2);
+    tracerService.trace(resultado);
+    return new ResponseEntity<>(resultado, OK);
   }
 
   @GetMapping(value = "/resta")
@@ -76,7 +82,9 @@ public class CalculadoraController {
       @RequestParam
       @Validated
       Double operador2) {
-    return new ResponseEntity<>(calculadoraService.resta(operador1, operador2), OK);
+    Double resultado = calculadoraService.resta(operador1, operador2);
+    tracerService.trace(resultado);
+    return new ResponseEntity<>(resultado, OK);
   }
 
   @GetMapping(value = "/multiplica")
@@ -89,8 +97,9 @@ public class CalculadoraController {
       @RequestParam
       @Validated
        Double operador2) throws CalculadoraException{
-
-    return new ResponseEntity<>(calculadoraService.multiplica(operador1, operador2), OK);
+      Double resultado = calculadoraService.multiplica(operador1, operador2);
+      tracerService.trace(resultado);
+      return new ResponseEntity<>(resultado, OK);
   }
 
   @GetMapping(value = "/divide")
@@ -103,6 +112,8 @@ public class CalculadoraController {
       @RequestParam
       @Validated
       Double operador2) throws CalculadoraException{
-    return new ResponseEntity<>(calculadoraService.divide(operador1, operador2), OK);
+      Double resultado = calculadoraService.divide(operador1, operador2);
+      tracerService.trace(resultado);
+      return new ResponseEntity<>(resultado, OK);
   }
 }

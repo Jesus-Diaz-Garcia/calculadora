@@ -3,6 +3,9 @@ package com.prueba.calculadora.services;
 import static org.springframework.http.HttpStatus.NOT_IMPLEMENTED;
 
 import com.prueba.calculadora.exceptions.CalculadoraException;
+import io.corp.calculator.TracerAPI;
+import io.corp.calculator.TracerImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,6 +24,7 @@ public class CalculadoraService {
     Double resultado = operador1 + operador2;
     return operador1 + operador2;
   }
+
 
   /**
    * Operación resta
